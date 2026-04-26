@@ -92,7 +92,7 @@ const InvoiceSenderSchema = z.object({
     zipCode: fieldValidators.zipCode,
     city: fieldValidators.city,
     country: fieldValidators.country,
-    email: fieldValidators.email,
+    email: fieldValidators.stringOptional,
     phone: fieldValidators.phone,
     customInputs: z.array(CustomInputSchema).optional(),
 });

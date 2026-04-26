@@ -1,20 +1,20 @@
 // Sender/Company Details - EDIT THESE VALUES
 export const SENDER_CONFIG = {
-  name: "Your Company Name",
-  address: "123 Business Street",
-  zipCode: "400001",
-  city: "Mumbai",
-  country: "India",
-  email: "billing@company.com",
-  phone: "+91 98765 43210",
+    name: "Adv Padmini M Patil",
+    subheading: "Advocate at Karnataka & Delhi High Court",
+    address: "House 728, HSR layout, sector 7, Bangalore, Karnataka",
+    zipCode: "560068",
+    city: "Bangalore",
+    country: "India",
+    phone: "+91 9611968641",
 };
 
 // Invoice Settings
 export const INVOICE_DEFAULTS = {
-  currency: "INR",
-  currencySymbol: "₹",
-  pdfTemplate: 3,  // Uses InvoiceTemplateSimple (new simplified template)
-  language: "English",
+    currency: "INR",
+    currencySymbol: "₹",
+    pdfTemplate: 3, // Uses InvoiceTemplateSimple (new simplified template)
+    language: "English",
 };
 
 // Only Invoice Date (no number generation needed)

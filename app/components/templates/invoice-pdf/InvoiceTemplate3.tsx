@@ -30,6 +30,11 @@ const InvoiceTemplateSimple = (data: InvoiceType) => {
                     <h1 className="mt-2 text-lg md:text-xl font-semibold text-blue-600">
                         {sender.name}
                     </h1>
+                    {sender.subheading && (
+                        <p className="text-sm text-gray-600 mt-1">
+                            {sender.subheading}
+                        </p>
+                    )}
                 </div>
                 <div className="text-right">
                     <address className="not-italic text-gray-800">
