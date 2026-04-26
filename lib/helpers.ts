@@ -175,15 +175,15 @@ const isDataUrl = (str: string) => str.startsWith("data:");
  * @throws {Error} Throws an error if there is an issue with the dynamic import or if a default template is not available.
  */
 const getInvoiceTemplate = async (templateId: number) => {
-    // When simplified mode is enabled, always use InvoiceTemplateSimple
+    // When simplified mode is enabled, always use InvoiceTemplate3 (Simple template)
     if (IS_SIMPLIFIED) {
         try {
             const module = await import(
-                `@/app/components/templates/invoice-pdf/InvoiceTemplateSimple`
+                `@/app/components/templates/invoice-pdf/InvoiceTemplate3`
             );
             return module.default;
         } catch (err) {
-            console.error(`Error importing InvoiceTemplateSimple: ${err}`);
+            console.error(`Error importing InvoiceTemplate3: ${err}`);
             return null;
         }
     }

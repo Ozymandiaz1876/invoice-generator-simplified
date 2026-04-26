@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Chromium
-import chromium from "@sparticuz/chromium";
-
 // Helpers
 import { getInvoiceTemplate } from "@/lib/helpers";
 
@@ -11,6 +8,31 @@ import { ENV, TAILWIND_CDN } from "@/lib/variables";
 
 // Types
 import { InvoiceType } from "@/types";
+
+/**
+ * Get the Chrome executable path
+ */
+function getChromePath(): string | undefined {
+    // In Docker, Chrome is installed at a specific path
+    if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+        return process.env.PUPPETEER_EXECUTABLE_PATH;
+    }
+    // Common paths for Chrome/Chromium
+    const possiblePaths = [
+        '/usr/bin/chromium',
+        '/usr/bin/chromium-browser',
+        '/usr/bin/google-chrome',
+        '/usr/bin/google-chrome-stable',
+    ];
+    return possiblePaths.find(path => {
+        try {
+            const fs = require('fs');
+            return fs.existsSync(path);
+        } catch {
+            return false;
+        }
+    });
+}
 
 /**
  * Generate a PDF document of an invoice based on the provided data.
@@ -33,17 +55,31 @@ export async function generatePdfService(req: NextRequest) {
             InvoiceTemplate(body)
         );
 
-		if (ENV === "production") {
+        // Use Puppeteer for PDF generation
+        const chromePath = getChromePath();
+        const puppeteerArgs = [
+            "--no-sandbox",
+            "--disable-setuid-sandbox",
+            "--disable-dev-shm-usage",
+            "--disable-gpu",
+            "--disable-web-security",
+            "--disable-features=IsolateOrigins,site-per-process",
+            "--font-render-hinting=none",
+        ];
+
+		if (chromePath || ENV === "production") {
+			// Use puppeteer-core with system Chrome
 			const puppeteer = (await import("puppeteer-core")).default;
 			browser = await puppeteer.launch({
-				args: [...chromium.args, "--disable-dev-shm-usage", "--ignore-certificate-errors"],
-				executablePath: await chromium.executablePath(),
+				args: puppeteerArgs,
+				executablePath: chromePath,
 				headless: true,
 			});
 		} else {
+			// Fallback to bundled puppeteer
 			const puppeteer = (await import("puppeteer")).default;
 			browser = await puppeteer.launch({
-				args: ["--no-sandbox", "--disable-setuid-sandbox"],
+				args: puppeteerArgs,
 				headless: true,
 			});
 		}

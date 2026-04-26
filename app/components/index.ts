@@ -11,6 +11,10 @@ import InvoiceMain from "./invoice/InvoiceMain";
 import InvoiceForm from "./invoice/InvoiceForm";
 import InvoiceActions from "./invoice/InvoiceActions";
 
+// * Simplified Invoice
+import SimpleInvoiceMain from "./invoice/SimpleInvoiceMain";
+import SimpleInvoiceForm from "./invoice/SimpleInvoiceForm";
+
 /* =========================
    * Invoice components
    ========================= */
@@ -33,6 +37,10 @@ import Items from "./invoice/form/sections/Items";
 import PaymentInformation from "./invoice/form/sections/PaymentInformation";
 import InvoiceSummary from "./invoice/form/sections/InvoiceSummary";
 import ImportJsonButton from "./invoice/form/sections/ImportJsonButton";
+
+// Simplified Form Sections
+import ClientSection from "./invoice/form/sections/ClientSection";
+import ItemsSection from "./invoice/form/sections/ItemsSection";
 
 // * Actions
 import PdfViewer from "./invoice/actions/PdfViewer";
@@ -104,6 +112,8 @@ export {
     InvoiceMain,
     InvoiceForm,
     InvoiceActions,
+    SimpleInvoiceMain,
+    SimpleInvoiceForm,
     BillFromSection,
     BillToSection,
     InvoiceDetails,
@@ -116,6 +126,8 @@ export {
     WizardProgress,
     PaymentInformation,
     InvoiceSummary,
+    ClientSection,
+    ItemsSection,
     CurrencySelector,
     SavedInvoicesList,
     PdfViewer,

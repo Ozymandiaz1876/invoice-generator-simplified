@@ -25,6 +25,7 @@ const FormTextarea = ({
     label,
     labelHelper,
     placeholder,
+    className,
     ...props
 }: FormTextareaProps) => {
     const { control } = useFormContext();
@@ -38,19 +39,15 @@ const FormTextarea = ({
                     {labelHelper && (
                         <span className="text-xs"> {labelHelper}</span>
                     )}
-                    <div className="flex justify-between gap-5 items-center text-sm">
-                        <div>
-                            <FormControl>
-                                <Textarea
-                                    {...field}
-                                    placeholder={placeholder}
-                                    className="w-[15rem] h-0"
-                                    {...props}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </div>
-                    </div>
+                    <FormControl>
+                        <Textarea
+                            {...field}
+                            placeholder={placeholder}
+                            className={`w-full min-h-[80px] ${className || ""}`}
+                            {...props}
+                        />
+                    </FormControl>
+                    <FormMessage />
                 </FormItem>
             )}
         />

@@ -2,6 +2,7 @@
 export const SENDER_CONFIG = {
   name: "Your Company Name",
   address: "123 Business Street",
+  zipCode: "400001",
   city: "Mumbai",
   country: "India",
   email: "billing@company.com",

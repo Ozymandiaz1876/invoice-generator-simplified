@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  invoice-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    container_name: invoice-generator
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_IS_SIMPLIFIED=true
+      # Email configuration (optional - only needed if using email features)
+      # - NODEMAILER_EMAIL=your_email@example.com
+      # - NODEMAILER_PW=your_email_password
+    restart: unless-stopped
+    # Security options for Puppeteer/Chromium
+    cap_add:
+      - SYS_ADMIN
+    shm_size: '2gb'
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 1G
+
+  # Optional: Development service with hot reload
+  invoice-app-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: deps
+    container_name: invoice-generator-dev
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_IS_SIMPLIFIED=true
+      - HOSTNAME=0.0.0.0
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    command: npm run dev
+    profiles:
+      - dev
+    cap_add:
+      - SYS_ADMIN
+    shm_size: '2gb'

@@ -19,6 +19,7 @@ type FormInputProps = {
     labelHelper?: string;
     placeholder?: string;
     vertical?: boolean;
+    fullWidth?: boolean;
 } & InputProps;
 
 const FormInput = ({
@@ -27,9 +28,13 @@ const FormInput = ({
     labelHelper,
     placeholder,
     vertical = false,
+    fullWidth = true,
+    className,
     ...props
 }: FormInputProps) => {
     const { control } = useFormContext();
+
+    const inputClassName = fullWidth ? "w-full" : "w-[13rem]";
 
     const verticalInput = (
         <FormField
@@ -47,7 +52,7 @@ const FormInput = ({
                         <Input
                             {...field}
                             placeholder={placeholder}
-                            className="w-[13rem]"
+                            className={`${inputClassName} ${className || ""}`}
                             {...props}
                         />
                     </FormControl>
@@ -63,18 +68,18 @@ const FormInput = ({
             name={name}
             render={({ field }) => (
                 <FormItem>
-                    <div className="flex w-full gap-5 items-center text-sm">
-                        {label && <FormLabel className="flex-1">{`${label}:`}</FormLabel>}
+                    <div className={`flex ${fullWidth ? "flex-col sm:flex-row" : ""} w-full gap-2 sm:gap-5 items-start sm:items-center text-sm`}>
+                        {label && <FormLabel className={fullWidth ? "w-full sm:w-auto sm:flex-1" : "flex-1"}>{`${label}:`}</FormLabel>}
                         {labelHelper && (
                             <span className="text-xs"> {labelHelper}</span>
                         )}
 
-                        <div className="flex-1">
+                        <div className={fullWidth ? "w-full sm:flex-1" : "flex-1"}>
                             <FormControl>
                                 <Input
                                     {...field}
                                     placeholder={placeholder}
-                                    className="w-[13rem]"
+                                    className={`${inputClassName} ${className || ""}`}
                                     {...props}
                                 />
                             </FormControl>
