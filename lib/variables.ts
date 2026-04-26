@@ -7,6 +7,12 @@ import { SignatureColor, SignatureFont } from "@/types";
 export const ENV = process.env.NODE_ENV;
 
 /**
+ * Feature flag for simplified invoice mode
+ * When true, uses simplified views and InvoiceTemplateSimple
+ */
+export const IS_SIMPLIFIED = process.env.NEXT_PUBLIC_IS_SIMPLIFIED === "true";
+
+/**
  * Websites
  */
 export const BASE_URL = "https://invoify.vercel.app";

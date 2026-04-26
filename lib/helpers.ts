@@ -8,6 +8,9 @@ import numberToWords from "number-to-words";
 import currenciesDetails from "@/public/assets/data/currencies.json";
 import { CurrencyDetails } from "@/types";
 
+// Variables
+import { IS_SIMPLIFIED } from "@/lib/variables";
+
 /**
  * Formats a number with commas and decimal places
  *
@@ -165,13 +168,27 @@ const isDataUrl = (str: string) => str.startsWith("data:");
 
 /**
  * Dynamically imports and retrieves an invoice template React component based on the provided template ID.
+ * When IS_SIMPLIFIED is true, always returns InvoiceTemplateSimple.
  *
  * @param {number} templateId - The ID of the invoice template.
  * @returns {Promise<React.ComponentType<any> | null>} A promise that resolves to the invoice template component or null if not found.
  * @throws {Error} Throws an error if there is an issue with the dynamic import or if a default template is not available.
  */
 const getInvoiceTemplate = async (templateId: number) => {
-    // Dynamic template component name
+    // When simplified mode is enabled, always use InvoiceTemplateSimple
+    if (IS_SIMPLIFIED) {
+        try {
+            const module = await import(
+                `@/app/components/templates/invoice-pdf/InvoiceTemplateSimple`
+            );
+            return module.default;
+        } catch (err) {
+            console.error(`Error importing InvoiceTemplateSimple: ${err}`);
+            return null;
+        }
+    }
+
+    // Dynamic template component name for normal mode
     const componentName = `InvoiceTemplate${templateId}`;
 
     try {
